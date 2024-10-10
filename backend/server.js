@@ -6,6 +6,7 @@ import connectToMongoDb from './db/connectToMongoDB.js';
 
 import authRoutes from './routes/auth.route.js'
 import profileRoutes from './routes/profile.route.js'
+import adminRoutes from './routes/admin.route.js'
 
 
 
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/admin', adminRoutes);
 
 
 
