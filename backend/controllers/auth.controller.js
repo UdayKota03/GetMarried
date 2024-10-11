@@ -7,14 +7,16 @@ import jwt from "jsonwebtoken";
 
 export const registerUser = async (req, res) => {
   try {
-    const { fullName, email, phone, password, confirmPassword } = req.body;
+    const { user } = req.body;
+    console.log(user);
+    const { fullName, email, phone, password, confirmPassword } = user;
     if (password !== confirmPassword) {
       res.send(400).json("Password Do not match");
     }
 
-    const user = await User.findOne({ email });
+    const userr = await User.findOne({ email });
 
-    if (user) {
+    if (userr) {
       return res
         .status(400)
         .json({ error: "Email already exists - Please Login" });
@@ -36,6 +38,7 @@ export const registerUser = async (req, res) => {
       await newUser.save();
 
       res.status(201).json({
+        success: true,
         _id: newUser._id,
         fullName: newUser.fullName,
         email: newUser.email,
@@ -50,6 +53,17 @@ export const registerUser = async (req, res) => {
   }
 };
 
+export const verify = async (req, res) => {
+  try {
+    const completeToken = req.header("Authorization");
+    const token = completeToken.split("Bearer ")[1].trim();
+    const user = jwt.verify(token, process.env.JWT_SECRET);
+    res.status(200).json({ success: true, user: user });
+  } catch (error) {
+    console.log("Error in verification : ", error);
+  }
+};
+
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export const loginUser = async (req, res) => {
@@ -58,20 +72,30 @@ export const loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ msg: "User not found" });
+      return res.status(404).json({ success: false, msg: "User not found" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ msg: "Invalid credentials" });
+      return res
+        .status(400)
+        .json({ success: false, msg: "Invalid credentials" });
     }
 
+    const token = jwt.sign(
+      {
+        userId: user._id.toString(),
+        email: email,
+        fullName: user.fullName,
+        isProfile: user.isProfile ? user.isProfile : false,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
 
-    const token = jwt.sign({ userId: user._id.toString(),email: email }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-
-    res.json({ token, user });
+    res.json({ success: true, token, user });
   } catch (error) {
     console.error("Error in login controller: " + error.message);
     res.status(500).json({ error: "Internal Server Error" });
@@ -107,7 +131,7 @@ export const sendOtpEmail = async (req, res) => {
     };
 
     await transporter.sendMail(mailOptions);
-    res.json({ msg: "OTP sent to email" });
+    res.status(200).json({ success: true, msg: "OTP sent to email" });
   } catch (err) {
     console.log("Error in sendOtpMail controller " + err.message);
     res.status(500).json({ error: "Internal Server Error" });
@@ -129,7 +153,9 @@ export const verifyOtpEmail = async (req, res) => {
     user.emailOtp = null; // Clear the OTP after verification
     await user.save();
 
-    res.json({ msg: "Email verified successfully", user });
+    res
+      .status(200)
+      .json({ success: true, msg: "Email verified successfully", user });
   } catch (err) {
     console.log("Error in sendOtpMail controller " + err.message);
     res.status(500).json({ error: "Internal Server Error" });

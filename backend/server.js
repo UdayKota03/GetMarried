@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import connectToMongoDb from './db/connectToMongoDB.js';
@@ -14,6 +15,7 @@ import adminRoutes from './routes/admin.route.js'
 const app = express();
 
 app.use(express.json());  // to parse the incoming requests with JSON payloads (from req.body)
+app.use(cors());
 dotenv.config();
 app.use(cookieParser());
 app.use(bodyParser.json());

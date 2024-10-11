@@ -13,8 +13,12 @@ const userSchema = new mongoose.Schema({
     isPhoneVerified: {
         type: Boolean,
         default: false, 
+    },
+    isProfile : {
+        type : Boolean,
+        default : false,
     }
-});
+} , {timestamps : true});
 
 const User = mongoose.model("User", userSchema);
 

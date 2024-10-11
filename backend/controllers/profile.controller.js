@@ -3,6 +3,7 @@ import mailjet from "node-mailjet";
 import dotenv from "dotenv";
 import Interest from "../models/interest.model.js";
 import Match from "../models/match.model.js";
+import User from "../models/user.model.js";
 
 dotenv.config();
 
@@ -10,11 +11,14 @@ dotenv.config();
 export const createProfile = async (req, res) => {
   try {
     const { email } = req.user;
+
+    const {profilee} = req.body;
     const {
       firstName,
       lastName,
       dob,
-      height,
+      heightFeet,
+      heightInches,
       religion,
       gender,
       city,
@@ -27,15 +31,30 @@ export const createProfile = async (req, res) => {
       photos,
       timeOfBirth,
       placeOfBirth,
-    } = req.body;
+    } = profilee;
+
+    console.log(profilee);
 
     // Check if a profile already exists for the email
     const profileExists = await Profile.findOne({ email });
     if (profileExists) {
       return res
         .status(400)
-        .json({ message: "Profile already exists for this email" });
+        .json({ success : false , message: "Profile already exists for this email" });
     }
+
+    const newheight = {
+      feet : heightFeet,
+      inches : heightInches
+    }
+
+    const photourl = [
+      {
+        url : photos
+      }
+    ];
+
+    console.log(community_preference);
 
     // Create new profile object
     const profile = new Profile({
@@ -43,7 +62,7 @@ export const createProfile = async (req, res) => {
       firstName,
       lastName,
       dob,
-      height,
+      height : newheight,
       religion,
       gender,
       city,
@@ -52,8 +71,8 @@ export const createProfile = async (req, res) => {
       contact,
       maritalStatus,
       community,
-      community_preference,
-      photos,
+      community_preference : community_preference,
+      photos : photourl,
       timeOfBirth,
       placeOfBirth,
     });
@@ -61,10 +80,10 @@ export const createProfile = async (req, res) => {
     // Save profile to the database
     await profile.save();
 
-    res.status(201).json({ message: "Profile created successfully", profile });
+    res.status(201).json({ success : true , message: "Profile created successfully", profile });
   } catch (error) {
-    console.log("Error in createProfile controller " + err.message);
-    res.status(500).json({ error: "Failed to create profile" });
+    console.log("Error in createProfile controller " + error.message);
+    res.status(500).json({ success : false ,error: "Failed to create profile" });
   }
 };
 
@@ -136,7 +155,7 @@ export const viewProfiles = async (req, res) => {
     });
 
     res.status(200).json(profiles);
-  } catch (error) {
+  } catch (err) {
     console.log("Error in viewProfiles controller " + err.message);
     res.status(500).json({ error: "Failed to view profiles" });
   }
@@ -188,6 +207,7 @@ export const showInterest = async (req, res) => {
         interestedUserProfileId: interestedUserProfile._id,
       });
       await newInterest.save();
+      console.log("Interset saved.");
       res.status(200).json({ message: "Interest email sent successfully" });
     } else {
       res.status(500).json({ message: "Failed to send interest email" });
@@ -209,7 +229,7 @@ export const getReceivedInterests = async (req, res) => {
 
     // Include the interest ID for the "Accept" functionality
     const simplifiedInterests = receivedInterests.map((interest) => ({
-      interestId: interest._id, // Add interest ID here
+      interestId: interest.userShowingInterestId._id, // Add interest ID here
       firstName: interest.userShowingInterestId.firstName,
       lastName: interest.userShowingInterestId.lastName,
       dateOfInterest: interest.dateOfInterest,
@@ -230,8 +250,9 @@ export const acceptInterest = async (req, res) => {
     const userProfile = await Profile.find({ email });
 
     const { _id } = userProfile[0];
+
+    console.log(interestId);
     console.log(_id.toString());
-    // return;
 
     // Find the interest record by its ID
     let interest = await Interest.find({
@@ -239,11 +260,14 @@ export const acceptInterest = async (req, res) => {
       interestedUserProfileId: _id.toString(),
     });
 
-    if (!interest) {
+    console.log(interest);
+
+    if (interest.length===0 || !interest) {
       return res.status(404).json({ message: "Interest not found" });
     }
 
     interest = interest[0];
+    console.log(interest);
 
     interest.mutual = true;
     await interest.save();
