@@ -12,7 +12,7 @@ const VerifyOtp = () => {
   const getotp = async () => {
     try {
       const { data } = await axios.post(
-        "http://localhost:8000/api/auth/sendOtpEmail",
+        "/api/auth/sendOtpEmail",
         {
           email: localStorage.getItem("email"),
         }
@@ -34,7 +34,7 @@ const VerifyOtp = () => {
       console.log("Handle click");
       console.log(otp);
       const { data } = await axios.post(
-        "http://localhost:8000/api/auth/verifyOtpEmail",
+        "/api/auth/verifyOtpEmail",
           {
             email: localStorage.getItem("email"),
             otp: otp,

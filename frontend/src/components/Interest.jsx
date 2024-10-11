@@ -7,7 +7,7 @@ function Interest() {
   const handlegetReceivedInterests = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:8000/api/profile/getReceivedInterests",
+        "/api/profile/getReceivedInterests",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`,

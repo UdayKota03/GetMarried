@@ -14,7 +14,7 @@ function Profile({ profile, key, type }) {
         `Interest shown in ${toProfile.firstName} ${toProfile.lastName}`
       );
       const { data } = await axios.post(
-        "http://localhost:8000/api/profile/showInterest",
+        "/api/profile/showInterest",
         { interestedUserId: toProfile._id },
         {
           headers: {
@@ -35,7 +35,7 @@ function Profile({ profile, key, type }) {
         `Accept Interest ${toProfile.firstName} ${toProfile.lastName} , ${toProfile.interestId}`
       );
       const { data } = await axios.post(
-        "http://localhost:8000/api/profile/acceptInterest",
+        "/api/profile/acceptInterest",
         { interestId: toProfile.interestId },
         {
           headers: {

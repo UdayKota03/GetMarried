@@ -7,7 +7,7 @@ function Matches() {
     const handlegetReceivedInterests = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:8000/api/profile/getMatches",
+          "/api/profile/getMatches",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("jwt")}`,

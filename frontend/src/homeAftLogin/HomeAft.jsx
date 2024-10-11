@@ -10,7 +10,7 @@ function HomeAft() {
   const verify = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:8000/api/auth/verify",
+        "/api/auth/verify",
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`,

@@ -14,7 +14,7 @@ const Login = () => {
 
   const handelsubmit = async (e) => {
     e.preventDefault();
-    const { data } = await axios.post("http://localhost:8000/api/auth/login", {
+    const { data } = await axios.post("/api/auth/login", {
       email: userdetails.email,
       password: userdetails.password,
     });

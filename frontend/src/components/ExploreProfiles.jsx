@@ -7,7 +7,7 @@ function ExploreProfiles() {
   const fetchProfiles = async () => {
     try {
       const { data } = await axios.post(
-        "http://localhost:8000/api/profile/viewProfiles",
+        "/api/profile/viewProfiles",
         {},
         {
           headers: {

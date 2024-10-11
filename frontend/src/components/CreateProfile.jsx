@@ -32,7 +32,7 @@ const CreateProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("http://localhost:8000/api/profile/createProfile", {profilee : profile} , {
+      const { data } = await axios.post("/api/profile/createProfile", {profilee : profile} , {
         headers :{
             Authorization : `Bearer ${localStorage.getItem("jwt")}`
         }
