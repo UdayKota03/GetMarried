@@ -15,7 +15,7 @@ function Interest() {
         }
       );
 
-      console.log(data);
+      console.log("Received data :", data);
       setProfiles(data);
     } catch (error) {
       console.log("Error in fetchProiles. : ", error);
@@ -30,7 +30,7 @@ function Interest() {
       <div className="" style={{backgroundColor : "#ECDFD0" , marginTop:"70px" , minHeight:"100vh" , height:"100%" , padding:"20px"}}>
         {profiles.length > 0 &&
           profiles.map((profile, index) => {
-            return <Profile profile={profile} key={index} type={"interest"} />;
+            return <Profile profile={profile?.profile} key={index} type={"interest"} />;
           })}
       </div>
     </>

@@ -222,10 +222,17 @@ export const getReceivedInterests = async (req, res) => {
   try {
     const { email } = req.user; // Assume req.user contains the logged-in user's email
     const userProfile = await Profile.findOne({ email });
+    console.log(userProfile);
 
     const receivedInterests = await Interest.find({
-      interestedUserProfileId: userProfile._id,
-    }).populate("userShowingInterestId", "firstName lastName");
+      interestedUserProfileId: userProfile._id.toString(),
+    }).populate("userShowingInterestId", "firstName lastName dob height religion gender city country state email contact maritalStatus community timeOfBirth placeOfBirth community_preference ");
+    console.log(receivedInterests);
+
+    if(receivedInterests.length <=0){
+      console.log("No interest found. : " , receivedInterests);
+      return res.status(400).json({success : false , msg : "No interest found."});
+    }
 
     // Include the interest ID for the "Accept" functionality
     const simplifiedInterests = receivedInterests.map((interest) => ({
@@ -233,7 +240,10 @@ export const getReceivedInterests = async (req, res) => {
       firstName: interest.userShowingInterestId.firstName,
       lastName: interest.userShowingInterestId.lastName,
       dateOfInterest: interest.dateOfInterest,
+      profile : interest.userShowingInterestId
     }));
+
+    console.log("Simple interest : ",simplifiedInterests);
 
     res.status(200).json(simplifiedInterests);
   } catch (error) {

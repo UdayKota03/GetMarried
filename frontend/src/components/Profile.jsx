@@ -55,7 +55,6 @@ function Profile({ profile, key, type }) {
       className="p-4 bg-white shadow-lg rounded-md max-w-md w-full mx-auto my-4"
       key={key}
     >
-      {/* Short Profile Summary */}
       <div className="flex justify-between items-center">
         <div>
           <h2 className="text-lg font-semibold">
@@ -87,48 +86,50 @@ function Profile({ profile, key, type }) {
         </div>
       </div>
 
-      {/* Full Profile - Toggle visibility based on state */}
       {showFullProfile && (
         <div className="mt-4 p-4 border-t">
+          {profile.height ? (
+            <p>
+              <strong>height:</strong> {profile.height.feet} Feet{" "}
+              {profile.height.inches} Inches
+            </p>
+          ) : (
+            <p>No height data available</p>
+          )}
           <p>
-            <strong>height:</strong> {profile.height.feet} Feet{" "}
-            {profile.height.inches} Inches
+            <strong>Date of Birth:</strong> {profile.dob || "N/A"}
           </p>
           <p>
-            <strong>dob:</strong> {profile.dob}
+            <strong>Religion:</strong> {profile.religion || "N/A"}
           </p>
           <p>
-            <strong>religion:</strong> {profile.religion}
+            <strong>Gender:</strong> {profile.gender || "N/A"}
           </p>
           <p>
-            <strong>gender:</strong> {profile.gender}
+            <strong>City:</strong> {profile.city || "N/A"}
           </p>
           <p>
-            <strong>city:</strong> {profile.city}
+            <strong>State:</strong> {profile.state || "N/A"}
           </p>
           <p>
-            <strong>state:</strong> {profile.state}
+            <strong>Country:</strong> {profile.country || "N/A"}
           </p>
           <p>
-            <strong>country:</strong> {profile.country}
+            <strong>Marital Status:</strong> {profile.maritalStatus || "N/A"}
           </p>
           <p>
-            <strong>maritalStatus:</strong> {profile.maritalStatus}
+            <strong>Community:</strong> {profile.community || "N/A"}
           </p>
           <p>
-            <strong>community:</strong> {profile.community}
+            <strong>Community Preference:</strong>{" "}
+            {profile.community_preference || "N/A"}
           </p>
           <p>
-            <strong>community_preference:</strong>{" "}
-            {profile.community_preference}
+            <strong>Time of Birth:</strong> {profile.timeOfBirth || "N/A"}
           </p>
           <p>
-            <strong>timeOfBirth:</strong> {profile.timeOfBirth}
+            <strong>Place of Birth:</strong> {profile.placeOfBirth || "N/A"}
           </p>
-          <p>
-            <strong>placeOfBirth:</strong> {profile.placeOfBirth}
-          </p>
-          {/* Add other profile fields as necessary */}
         </div>
       )}
     </div>
