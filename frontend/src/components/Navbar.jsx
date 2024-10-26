@@ -1,18 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../assets/baang.svg";
 import { useNavigate, Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Toggle dropdown menu
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
+  // Close dropdown menu when clicking outside
+  const handleClickOutside = (event) => {
+    if (isOpen && !event.target.closest('.dropdown')) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
     <nav className="fixed top-0 left-0 right-0 bg-[#ECDFD0] z-50" style={{ height: "70px" }}>
       <div className="navbar text-lg w-full h-full">
-        <div className="flex-1 flex items-center h-full"> 
+        <div className="flex-1 flex items-center h-full">
           <Link to="/" className="btn btn-ghost normal-case flex items-center leading-none hover:bg-transparent p-0" style={{ padding: "0px" }}>
             <img src={Logo} alt="Logo" className="h-10 w-36 md:h-14 md:w-60 object-contain mt-0" />
           </Link>

@@ -8,11 +8,10 @@ const ContactUs = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const recipientEmail = 'your-receiver-email@example.com'; // Change this to your email
+    const recipientEmail = 'udaykota4u@gmail.com';
     const subject = `${name} from GetMarried`;
     const body = `Name: ${name}\nEmail: ${email}\nMessage: ${message}`;
     
-    // Open the user's default email client with the specified email
     window.location.href = `mailto:${recipientEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     
     // Reset the form
