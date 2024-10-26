@@ -49,15 +49,13 @@ function Profile({ profile, type }) {
   return (
     <div className="p-4 bg-white shadow-lg rounded-md max-w-md w-full mx-auto my-4 transition-all duration-300 ease-in-out hover:shadow-xl">
       <div className="flex justify-between items-center">
-        <div>
-          <h2 className="text-lg font-semibold">
-            {profile.firstName} {profile.lastName}
-          </h2>
-        </div>
-        <div>
+        <h2 className="text-lg font-semibold">
+          {profile.firstName} {profile.lastName}
+        </h2>
+        <div className="flex space-x-2"> {/* Use flex for button alignment */}
           <button
             onClick={toggleProfile}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
             {showFullProfile ? "Hide Profile" : "View Full Profile"}
           </button>

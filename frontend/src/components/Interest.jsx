@@ -30,7 +30,7 @@ function Interest() {
   return (
     <div className="bg-[#ECDFD0] mt-16 min-h-screen p-5">
       <h1 className="text-2xl font-bold mb-4">Received Interests</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="flex flex-col gap-4">
         {profiles.length > 0 ? (
           profiles.map((profile, index) => (
             <Profile profile={profile?.profile} key={index} type={"interest"} />
