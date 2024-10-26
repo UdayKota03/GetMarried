@@ -1,6 +1,6 @@
 import "./App.css";
 // import Navbar from "./components/Navbar";
-// import Header from "./components/Header"
+// import Header from "./components/Header";
 // import Footer from "./components/Footer";
 import {
   BrowserRouter as Router,
@@ -20,6 +20,9 @@ import Interest from "./components/Interest";
 import Matches from "./components/Matches";
 import NavbarAft from "./components/NavbarAft";
 import CreateProfile from "./components/CreateProfile";
+import About from "./components/About";
+import HowItWorks from "./components/HowItWorks";
+import ContactUs from "./components/ContactUs";
 
 function App() {
   const { user } = useStore();
@@ -63,6 +66,9 @@ function App() {
               </>
             }
           />
+          <Route path="/about" element={<About />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/contact-us" element={<ContactUs />} />
         </Routes>
       </Router>
     </>

@@ -4,37 +4,43 @@ import Profile from "./Profile";
 
 function Matches() {
     const [profiles, setProfiles] = useState([]);
+
     const handlegetReceivedInterests = async () => {
-      try {
-        const { data } = await axios.get(
-          "/api/profile/getMatches",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-            },
-          }
-        );
-  
-        console.log(data);
-        setProfiles(data);
-      } catch (error) {
-        console.log("Error in fetchProiles. : ", error);
-      }
+        try {
+            const { data } = await axios.get(
+                "/api/profile/getMatches",
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+                    },
+                }
+            );
+
+            console.log(data);
+            setProfiles(data);
+        } catch (error) {
+            console.log("Error in fetchProfiles: ", error);
+        }
     };
-  
+
     useEffect(() => {
-      handlegetReceivedInterests();
+        handlegetReceivedInterests();
     }, []);
+
     return (
-      <>
-        <div className="" style={{backgroundColor : "#ECDFD0" , marginTop:"70px" , minHeight:"100vh" , height:"100%" , padding:"20px"}}>
-        {profiles.length > 0 &&
-          profiles.map((profile, index) => {
-            return <Profile profile={profile} key={index} type={"match"} />;
-          })}
-      </div>
-      </>
+        <div className="bg-[#ECDFD0] mt-16 min-h-screen p-5">
+            <h1 className="text-2xl font-bold mb-4">Matched Profiles</h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {profiles.length > 0 ? (
+                    profiles.map((profile, index) => (
+                        <Profile profile={profile} key={index} type={"match"} />
+                    ))
+                ) : (
+                    <p>No matches found.</p>
+                )}
+            </div>
+        </div>
     );
 }
 
-export default Matches
+export default Matches;

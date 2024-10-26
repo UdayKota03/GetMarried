@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { FaUser, FaPhone, FaEnvelope, FaCalendar, FaMapMarkerAlt, FaCamera, FaUsers } from 'react-icons/fa'; // Importing icons
 
 const CreateProfile = () => {
   const navigate = useNavigate();
@@ -26,15 +27,14 @@ const CreateProfile = () => {
 
   const handleChanges = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
-    console.log(profile);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post("/api/profile/createProfile", {profilee : profile} , {
-        headers :{
-            Authorization : `Bearer ${localStorage.getItem("jwt")}`
+      const { data } = await axios.post("/api/profile/createProfile", { profilee: profile }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("jwt")}`
         }
       });
       if (data.success) {
@@ -47,49 +47,41 @@ const CreateProfile = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100" style={{backgroundColor : "#ECDFD0" , marginTop:"70px" , minHeight:"100vh" , height:"100%" , padding:"20px"}}>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100" style={{ backgroundColor: "#ECDFD0", padding: "20px" }}>
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
-        <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">
-          Create Profile
-        </h2>
+        <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">Create Profile</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label className="label p-2">
-              <span className="text-base label-text">First Name</span>
-            </label>
+          <div className="mb-4 flex items-center">
+            <FaUser className="mr-2 text-gray-600" />
             <input
               type="text"
               name="firstName"
               onChange={handleChanges}
-              placeholder="Enter your first name"
-              className="w-full input input-bordered h-8"
-              required
-            />
-          </div>
-          
-          <div className="mb-4">
-            <label className="label p-2">
-              <span className="text-base label-text">Last Name</span>
-            </label>
-            <input
-              type="text"
-              name="lastName"
-              onChange={handleChanges}
-              placeholder="Enter your last name"
-              className="w-full input input-bordered h-8"
+              placeholder="First Name"
+              className="w-full input input-bordered h-10"
               required
             />
           </div>
 
-          <div className="mb-4">
-            <label className="label p-2">
-              <span className="text-base label-text">Date of Birth</span>
-            </label>
+          <div className="mb-4 flex items-center">
+            <FaUser className="mr-2 text-gray-600" />
+            <input
+              type="text"
+              name="lastName"
+              onChange={handleChanges}
+              placeholder="Last Name"
+              className="w-full input input-bordered h-10"
+              required
+            />
+          </div>
+
+          <div className="mb-4 flex items-center">
+            <FaCalendar className="mr-2 text-gray-600" />
             <input
               type="date"
               name="dob"
               onChange={handleChanges}
-              className="w-full input input-bordered h-8"
+              className="w-full input input-bordered h-10"
               required
             />
           </div>
@@ -104,7 +96,7 @@ const CreateProfile = () => {
                 name="heightFeet"
                 onChange={handleChanges}
                 placeholder="Feet"
-                className="w-1/2 input input-bordered h-8"
+                className="w-1/2 input input-bordered h-10"
                 required
               />
               <input
@@ -112,184 +104,156 @@ const CreateProfile = () => {
                 name="heightInches"
                 onChange={handleChanges}
                 placeholder="Inches"
-                className="w-1/2 input input-bordered h-8"
+                className="w-1/2 input input-bordered h-10"
                 required
               />
             </div>
           </div>
 
-          <div className="mb-4">
-            <label className="label p-2">
-              <span className="text-base label-text">Religion</span>
-            </label>
+          <div className="mb-4 flex items-center">
+            <FaUsers className="mr-2 text-gray-600" />
             <input
               type="text"
               name="religion"
               onChange={handleChanges}
-              placeholder="Enter your religion"
-              className="w-full input input-bordered h-8"
+              placeholder="Religion"
+              className="w-full input input-bordered h-10"
               required
             />
           </div>
 
-          <div className="mb-4">
-            <label className="label p-2">
-              <span className="text-base label-text">Gender</span>
-            </label>
+          <div className="mb-4 flex items-center">
+            <FaUsers className="mr-2 text-gray-600" />
             <select
               name="gender"
               onChange={handleChanges}
-              className="w-full input input-bordered h-8"
+              className="w-full input input-bordered h-10"
               required
             >
-              <option value="" disabled selected>
-                Select your gender
-              </option>
+              <option value="" disabled selected>Select your gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
             </select>
           </div>
 
-          <div className="mb-4">
-            <label className="label p-2">
-              <span className="text-base label-text">City</span>
-            </label>
+          <div className="mb-4 flex items-center">
+            <FaMapMarkerAlt className="mr-2 text-gray-600" />
             <input
               type="text"
               name="city"
               onChange={handleChanges}
-              placeholder="Enter your city"
-              className="w-full input input-bordered h-8"
+              placeholder="City"
+              className="w-full input input-bordered h-10"
               required
             />
           </div>
 
-          <div className="mb-4">
-            <label className="label p-2">
-              <span className="text-base label-text">State</span>
-            </label>
+          <div className="mb-4 flex items-center">
+            <FaMapMarkerAlt className="mr-2 text-gray-600" />
             <input
               type="text"
               name="state"
               onChange={handleChanges}
-              placeholder="Enter your state"
-              className="w-full input input-bordered h-8"
+              placeholder="State"
+              className="w-full input input-bordered h-10"
               required
             />
           </div>
 
-          <div className="mb-4">
-            <label className="label p-2">
-              <span className="text-base label-text">Country</span>
-            </label>
+          <div className="mb-4 flex items-center">
+            <FaMapMarkerAlt className="mr-2 text-gray-600" />
             <input
               type="text"
               name="country"
               onChange={handleChanges}
-              placeholder="Enter your country"
-              className="w-full input input-bordered h-8"
+              placeholder="Country"
+              className="w-full input input-bordered h-10"
               required
             />
           </div>
 
-          <div className="mb-4">
-            <label className="label p-2">
-              <span className="text-base label-text">Contact</span>
-            </label>
+          <div className="mb-4 flex items-center">
+            <FaPhone className="mr-2 text-gray-600" />
             <input
               type="text"
               name="contact"
               onChange={handleChanges}
-              placeholder="Enter your contact number"
-              className="w-full input input-bordered h-8"
+              placeholder="Contact Number"
+              className="w-full input input-bordered h-10"
               required
             />
           </div>
 
-          <div className="mb-4">
-            <label className="label p-2">
-              <span className="text-base label-text">Marital Status</span>
-            </label>
+          <div className="mb-4 flex items-center">
+            <FaUsers className="mr-2 text-gray-600" />
             <select
               name="maritalStatus"
               onChange={handleChanges}
-              className="w-full input input-bordered h-8"
+              className="w-full input input-bordered h-10"
               required
             >
-              <option value="" disabled selected>
-                Select your marital status
-              </option>
+              <option value="" disabled selected>Select marital status</option>
               <option value="never married">Never Married</option>
               <option value="separated">Separated</option>
               <option value="divorced">Divorced</option>
             </select>
           </div>
 
-          <div className="mb-4">
-            <label className="label p-2">
-              <span className="text-base label-text">Community</span>
-            </label>
+          <div className="mb-4 flex items-center">
+            <FaUsers className="mr-2 text-gray-600" />
             <input
               type="text"
               name="community"
               onChange={handleChanges}
-              placeholder="Enter your community"
-              className="w-full input input-bordered h-8"
+              placeholder="Community"
+              className="w-full input input-bordered h-10"
               required
             />
           </div>
 
-          <div className="mb-4">
-            <label className="label p-2">
-              <span className="text-base label-text">Community Preference</span>
-            </label>
+          <div className="mb-4 flex items-center">
+            <FaUsers className="mr-2 text-gray-600" />
             <input
               type="text"
               name="community_preference"
               onChange={handleChanges}
-              placeholder="Enter your community preference"
-              className="w-full input input-bordered h-8"
+              placeholder="Community Preference"
+              className="w-full input input-bordered h-10"
               required
             />
           </div>
 
-          <div className="mb-4">
-            <label className="label p-2">
-              <span className="text-base label-text">Photos URL</span>
-            </label>
+          <div className="mb-4 flex items-center">
+            <FaCamera className="mr-2 text-gray-600" />
             <input
               type="text"
               name="photos"
               onChange={handleChanges}
-              placeholder="Enter a photo URL"
-              className="w-full input input-bordered h-8"
+              placeholder="Photo URL"
+              className="w-full input input-bordered h-10"
               required
             />
           </div>
 
-          <div className="mb-4">
-            <label className="label p-2">
-              <span className="text-base label-text">Time of Birth (Optional)</span>
-            </label>
+          <div className="mb-4 flex items-center">
+            <FaClock className="mr-2 text-gray-600" />
             <input
               type="text"
               name="timeOfBirth"
               onChange={handleChanges}
-              placeholder="Enter time of birth"
-              className="w-full input input-bordered h-8"
+              placeholder="Time of Birth (Optional)"
+              className="w-full input input-bordered h-10"
             />
           </div>
 
-          <div className="mb-4">
-            <label className="label p-2">
-              <span className="text-base label-text">Place of Birth (Optional)</span>
-            </label>
+          <div className="mb-4 flex items-center">
+            <FaMapMarkerAlt className="mr-2 text-gray-600" />
             <input
               type="text"
               name="placeOfBirth"
               onChange={handleChanges}
-              placeholder="Enter place of birth"
-              className="w-full input input-bordered h-8"
+              placeholder="Place of Birth (Optional)"
+              className="w-full input input-bordered h-10"
             />
           </div>
 

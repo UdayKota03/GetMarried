@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import axios from 'axios';
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { FaUser, FaPhone, FaEnvelope, FaLock } from 'react-icons/fa';
 
 const Register = () => {
-    const navigate = useNavigate();
-  const [user, setuser] = useState({
+  const navigate = useNavigate();
+  const [user, setUser] = useState({
     fullName: "",
     phone: "",
     email: "",
@@ -12,99 +13,125 @@ const Register = () => {
     confirmPassword: "",
   });
 
-  const handlechanges = (e) => {
-    setuser({ ...user, [e.target.name]: e.target.value });
-    console.log(user);
+  const handleChanges = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleregister = async(e)=>{
+  const handleRegister = async (e) => {
     try {
-        e.preventDefault();
-        const {data} = await axios.post("/api/auth/register" , {
-            user : user
-        })
+      e.preventDefault();
+      const { data } = await axios.post("/api/auth/register", { user });
 
-        if(data.success){
-            localStorage.setItem("email" , data.email);
-        }
-        console.log("User saved.");
+      if (data.success) {
+        localStorage.setItem("email", data.email);
         navigate("/verify");
         return;
+      }
     } catch (error) {
-        console.log("Error in handleregister. : " , error);
+      console.log("Error in handleRegister: ", error);
     }
-  }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
-        <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">
-          Register
-        </h2>
-        <form onSubmit={handleregister}>
-          <div className="mb-4">
+        <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">Register</h2>
+        <form onSubmit={handleRegister}>
+          <div className="mb-4 relative">
             <label className="label p-2">
               <span className="text-base label-text">Full Name</span>
             </label>
-            <input
-              type="text"
-              name="fullName"
-              onChange={handlechanges}
-              placeholder="Enter your full name"
-              className="w-full input input-bordered h-8"
-            />
+            <div className="relative">
+              <input
+                type="text"
+                name="fullName"
+                onChange={handleChanges}
+                placeholder="Enter your full name"
+                className="w-full input input-bordered h-10 pl-10"
+                required
+              />
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                <FaUser className="text-gray-400" />
+              </span>
+            </div>
           </div>
 
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label className="label p-2">
               <span className="text-base label-text">Phone</span>
             </label>
-            <input
-              type="text"
-              name="phone"
-              onChange={handlechanges}
-              placeholder="Enter your phone number"
-              className="w-full input input-bordered h-8"
-            />
+            <div className="relative">
+              <input
+                type="text"
+                name="phone"
+                onChange={handleChanges}
+                placeholder="Enter your phone number"
+                className="w-full input input-bordered h-10 pl-10"
+                required
+              />
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                <FaPhone className="text-gray-400" />
+              </span>
+            </div>
           </div>
 
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label className="label p-2">
               <span className="text-base label-text">Email</span>
             </label>
-            <input
-              type="email"
-              name="email"
-              onChange={handlechanges}
-              placeholder="Enter your email"
-              className="w-full input input-bordered h-8"
-            />
+            <div className="relative">
+              <input
+                type="email"
+                name="email"
+                onChange={handleChanges}
+                placeholder="Enter your email"
+                className="w-full input input-bordered h-10 pl-10"
+                required
+              />
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                <FaEnvelope className="text-gray-400" />
+              </span>
+            </div>
           </div>
 
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label className="label p-2">
               <span className="text-base label-text">Password</span>
             </label>
-            <input
-              type="password"
-              name="password"
-              onChange={handlechanges}
-              placeholder="Enter your password"
-              className="w-full input input-bordered h-8"
-            />
+            <div className="relative">
+              <input
+                type="password"
+                name="password"
+                onChange={handleChanges}
+                placeholder="Enter your password"
+                className="w-full input input-bordered h-10 pl-10"
+                required
+              />
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                <FaLock className="text-gray-400" />
+              </span>
+            </div>
           </div>
 
-          <div className="mb-6">
+          <div className="mb-6 relative">
             <label className="label p-2">
               <span className="text-base label-text">Confirm Password</span>
             </label>
-            <input
-              type="password"
-              name="confirmPassword"
-              onChange={handlechanges}
-              placeholder="Confirm your password"
-              className="w-full input input-bordered h-8"
-            />
+            <div className="relative">
+              <input
+                type="password"
+                name="confirmPassword"
+                onChange={handleChanges}
+                placeholder="Confirm your password"
+                className="w-full input input-bordered h-10 pl-10"
+                required
+              />
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                <FaLock className="text-gray-400" />
+              </span>
+            </div>
           </div>
+
           <div className="pb-2">
             <Link to="/login" className="hover:text-blue-500">Already have an account? Login</Link>
           </div>

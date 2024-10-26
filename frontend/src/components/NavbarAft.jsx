@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Logo from "../assets/baang.svg";
-import {useNavigate , Link} from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom';
 
 const NavbarAft = () => {
   const navigate = useNavigate();
@@ -10,19 +10,19 @@ const NavbarAft = () => {
     setIsOpen(!isOpen);
   };
 
-
-  const handlelogout = ()=>{
+  const handleLogout = () => {
     console.log("Logout");
     localStorage.removeItem("jwt");
     navigate("/");
     return;
-  }
+  };
+
   return (
-    <div className="navbar bg-white fixed text-lg mt-0 mx-auto z-50 top-0" style={{ height: "70px", backgroundColor:'#ECDFD0'}}>
+    <div className="navbar bg-white fixed text-lg mt-0 mx-auto z-50 top-0" style={{ height: "70px", backgroundColor: '#ECDFD0' }}>
       <div className="flex-1 flex items-center h-full"> {/* Full height for alignment */}
-        <a className="btn btn-ghost normal-case flex items-center leading-none hover:bg-transparent p-0" style={{ padding: "0px" }}>
+        <Link to="/" className="btn btn-ghost normal-case flex items-center leading-none hover:bg-transparent p-0" style={{ padding: "0px" }}>
           <img src={Logo} alt="Logo" className="h-14 w-60 object-contain mt-0" /> {/* Increased size */}
-        </a>
+        </Link>
       </div>
       <div className="flex-none">
         {/* Dropdown for small screens */}
@@ -49,16 +49,16 @@ const NavbarAft = () => {
           {isOpen && (
             <ul className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 absolute right-0 p-2 shadow-md">
               <li>
-                <a className="hover:bg-transparent hover:text-customBlue font-serif">Explore Profiles</a>
+                <Link to="/profiles" className="hover:bg-transparent hover:text-customBlue font-serif">Explore Profiles</Link>
               </li>
               <li>
-                <a className="hover:bg-transparent hover:text-customBlue font-serif">Received Interests</a>
+                <Link to="/interest" className="hover:bg-transparent hover:text-customBlue font-serif">Received Interests</Link>
               </li>
               <li>
-                <a className="hover:bg-transparent hover:text-customBlue font-serif">Matches</a>
+                <Link to="/matches" className="hover:bg-transparent hover:text-customBlue font-serif">Matches</Link>
               </li>
               <li>
-              <button className="btn hover:bg-transparent border-none" onClick={handlelogout}>Logout</button>
+                <button className="btn hover:bg-transparent border-none" onClick={handleLogout}>Logout</button>
               </li>
             </ul>
           )}
@@ -76,7 +76,7 @@ const NavbarAft = () => {
             <Link to="/matches" className="hover:bg-transparent hover:text-customBlue font-serif">Matches</Link>
           </li>
           <li>
-            <button className="btn hover:bg-transparent border-none" onClick={handlelogout}>Logout</button>
+            <button className="btn hover:bg-transparent border-none" onClick={handleLogout}>Logout</button>
           </li>
         </ul>
       </div>

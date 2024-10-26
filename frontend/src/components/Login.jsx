@@ -2,73 +2,81 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useStore from "../store/store";
+import { FaUser, FaLock } from "react-icons/fa";
 
 const Login = () => {
   const navigate = useNavigate();
-  const {user , setUser} = useStore();
-  const [userdetails, setuserdetails] = useState({ email: "", password: "" });
+  const { setUser } = useStore();
+  const [userdetails, setUserDetails] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
 
-  const handleuserchanges = (e) => {
-    setuserdetails({ ...userdetails, [e.target.name]: e.target.value });
+  const handleUserChanges = (e) => {
+    setUserDetails({ ...userdetails, [e.target.name]: e.target.value });
   };
 
-  const handelsubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { data } = await axios.post("/api/auth/login", {
-      email: userdetails.email,
-      password: userdetails.password,
-    });
+    try {
+      const { data } = await axios.post("/api/auth/login", {
+        email: userdetails.email,
+        password: userdetails.password,
+      });
 
-    if (!data.success) {
-      return;
+      if (!data.success) {
+        setError("Invalid email or password");
+        return;
+      }
+
+      setUser(data.user);
+      localStorage.setItem("jwt", data.token);
+      navigate("/user");
+    } catch (error) {
+      setError("An error occurred. Please try again.");
     }
-
-    console.log(data?.user);
-
-    setUser(data?.user);
-
-    console.log(user);
-
-    localStorage.setItem("jwt", data.token);
-
-    navigate("/user");
-    return;
   };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
-        <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">
-          Login
-        </h2>
-        <form onSubmit={handelsubmit}>
-          <div className="mb-4">
+        <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">Login</h2>
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4 relative">
             <label className="label p-2">
               <span className="text-base label-text">Email</span>
             </label>
-            <input
-              type="email"
-              name="email"
-              onChange={handleuserchanges}
-              placeholder="Enter your email"
-              className="w-full input input-bordered h-8"
-              required
-            />
+            <div className="relative">
+              <input
+                type="email"
+                name="email"
+                onChange={handleUserChanges}
+                placeholder="Enter your email"
+                className="w-full input input-bordered h-10 pl-10"
+                required
+              />
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                <FaUser className="text-gray-400" />
+              </span>
+            </div>
           </div>
-
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label className="label p-2">
               <span className="text-base label-text">Password</span>
             </label>
-            <input
-              type="password"
-              name="password"
-              onChange={handleuserchanges}
-              placeholder="Enter your password"
-              className="w-full input input-bordered h-8"
-              required
-            />
+            <div className="relative">
+              <input
+                type="password"
+                name="password"
+                onChange={handleUserChanges}
+                placeholder="Enter your password"
+                className="w-full input input-bordered h-10 pl-10"
+                required
+              />
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                <FaLock className="text-gray-400" />
+              </span>
+            </div>
           </div>
-
           <div className="flex justify-center">
             <button
               type="submit"
