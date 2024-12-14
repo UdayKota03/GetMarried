@@ -1,7 +1,7 @@
 import "./App.css";
-// import Navbar from "./components/Navbar";
-// import Header from "./components/Header";
-// import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import {
   BrowserRouter as Router,
   Routes,
@@ -35,7 +35,7 @@ function App() {
           <Route path="/user" element={<HomeAft />} />
           <Route path="/register" element={<Register />} />
           <Route path="/verify" element={<VerifyOtp />} />
-          <Route path="/createprofile" element={<>
+          <Route path="/createProfile" element={<>
                 <NavbarAft />
                 <CreateProfile />
               </>} />

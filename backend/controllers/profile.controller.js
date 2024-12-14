@@ -10,6 +10,7 @@ dotenv.config();
 // Create user profile after email verification
 export const createProfile = async (req, res) => {
   try {
+    console.log("createProfile")
     const { email } = req.user;
 
     const {profilee} = req.body;
@@ -33,7 +34,7 @@ export const createProfile = async (req, res) => {
       placeOfBirth,
     } = profilee;
 
-    console.log(profilee);
+    // console.log(profilee);
 
     // Check if a profile already exists for the email
     const profileExists = await Profile.findOne({ email });

@@ -28,8 +28,8 @@ const Header = () => {
             )}
 
             {(localStorage.getItem("jwt") && !user.isProfile) ? (
-              <div className="flex justify-center md:justify-start">
-                <Link to="/createprofile">
+              <div className="flex justify-center md:justify-start pt-2">
+                <Link to="/createProfile">
                   <button className="btn bg-blue-600 hover:bg-transparent border-none">
                     Create Profile
                   </button>
