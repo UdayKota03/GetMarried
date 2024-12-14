@@ -10,10 +10,8 @@ dotenv.config();
 // Create user profile after email verification
 export const createProfile = async (req, res) => {
   try {
-    console.log("createProfile")
     const { email } = req.user;
-
-    const {profilee} = req.body;
+    const profileData = JSON.parse(req.body.profileData);
     const {
       firstName,
       lastName,
@@ -29,37 +27,24 @@ export const createProfile = async (req, res) => {
       maritalStatus,
       community,
       community_preference,
-      photos,
       timeOfBirth,
       placeOfBirth,
-    } = profilee;
-
-    // console.log(profilee);
-
-    // Check if a profile already exists for the email
+    } = profileData;
     const profileExists = await Profile.findOne({ email });
     if (profileExists) {
       return res
         .status(400)
         .json({ success : false , message: "Profile already exists for this email" });
     }
-
     const newheight = {
       feet : heightFeet,
       inches : heightInches
-    }
-
-    const photourl = [
-      {
-        url : photos
-      }
-    ];
-
-    console.log(community_preference);
-
-    // Create new profile object
+    };
+    const photos = req.files.map(file => {
+      return { url: '/uploads/' + file.filename };
+    });
     const profile = new Profile({
-      email, // Use email to link profile
+      email,
       firstName,
       lastName,
       dob,
@@ -73,14 +58,11 @@ export const createProfile = async (req, res) => {
       maritalStatus,
       community,
       community_preference : community_preference,
-      photos : photourl,
+      photos: photos,
       timeOfBirth,
       placeOfBirth,
     });
-
-    // Save profile to the database
     await profile.save();
-
     res.status(201).json({ success : true , message: "Profile created successfully", profile });
   } catch (error) {
     console.log("Error in createProfile controller " + error.message);

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { FaUser, FaPhone, FaEnvelope, FaCalendar, FaMapMarkerAlt, FaCamera, FaUsers, FaClock } from 'react-icons/fa';
+import { FaUser, FaPhone, FaCalendar, FaMapMarkerAlt, FaCamera, FaUsers, FaClock } from 'react-icons/fa';
 
 const CreateProfile = () => {
     const navigate = useNavigate();
@@ -22,8 +22,8 @@ const CreateProfile = () => {
         community_preference: "",
         timeOfBirth: "",
         placeOfBirth: "",
-        photos: "",
     });
+    const [photos, setPhotos] = useState([]);
 
     const handleChanges = (e) => {
         setProfile({ 
@@ -32,26 +32,31 @@ const CreateProfile = () => {
         });
     };
 
+    const handlePhotoChange = (e) => {
+        setPhotos(e.target.files);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-          console.log("create")
+            const formData = new FormData();
+            formData.append('profileData', JSON.stringify(profile));
+            for (let i = 0; i < photos.length; i++) {
+                formData.append('photos', photos[i]);
+            }
             const { data } = await axios.post("/api/profile/createProfile", 
-                { 
-                    profilee: profile 
-                }, 
+                formData, 
                 { 
                     headers: { 
+                        "Content-Type": "multipart/form-data",
                         Authorization: `Bearer ${localStorage.getItem("jwt")}` 
                     } 
                 }
             );
-            
             if (data.success) {
                 navigate("/profiles");
             }
         } catch (error) {
-            // Error handling can be added here
         }
     };
 
@@ -233,10 +238,10 @@ const CreateProfile = () => {
                     <div className="mb-4 flex items-center">
                         <FaCamera className="mr-2 text-gray-600" />
                         <input 
-                            type="text" 
+                            type="file" 
                             name="photos" 
-                            onChange={handleChanges} 
-                            placeholder="Photo URL" 
+                            onChange={handlePhotoChange} 
+                            multiple
                             className="w-full input input-bordered h-10" 
                             required 
                         />

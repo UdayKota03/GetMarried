@@ -20,7 +20,6 @@ function Profile({ profile, type }) {
           },
         }
       );
-
       console.log(data);
     } catch (err) {
       console.log("Error in sending interest: ", err);
@@ -39,7 +38,6 @@ function Profile({ profile, type }) {
           },
         }
       );
-
       console.log(data);
     } catch (error) {
       console.log("Error in accepting interest: ", error);
@@ -52,7 +50,7 @@ function Profile({ profile, type }) {
         <h2 className="text-lg font-semibold">
           {profile.firstName} {profile.lastName}
         </h2>
-        <div className="flex space-x-2"> {/* Use flex for button alignment */}
+        <div className="flex space-x-2">
           <button
             onClick={toggleProfile}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -82,13 +80,19 @@ function Profile({ profile, type }) {
 
       {showFullProfile && (
         <div className="mt-4 p-4 border-t">
-          {profile.height ? (
-            <p>
-              <strong>Height:</strong> {profile.height.feet} Feet {profile.height.inches} Inches
-            </p>
-          ) : (
-            <p>No height data available</p>
+          {profile.photos && profile.photos.length > 0 && (
+            <div className="w-full h-64 mb-4">
+              <img
+                src={profile.photos[0].url}
+                alt="Profile Photo"
+                className="w-full h-full object-cover rounded"
+              />
+            </div>
           )}
+          <p>
+            <strong>Height:</strong>{" "}
+            {profile.height ? `${profile.height.feet} Feet ${profile.height.inches} Inches` : "N/A"}
+          </p>
           <p><strong>Date of Birth:</strong> {profile.dob || "N/A"}</p>
           <p><strong>Religion:</strong> {profile.religion || "N/A"}</p>
           <p><strong>Gender:</strong> {profile.gender || "N/A"}</p>

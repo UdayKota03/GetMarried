@@ -21,6 +21,8 @@ dotenv.config();
 app.use(cookieParser());
 app.use(bodyParser.json());
 
+app.use('/uploads', express.static('uploads'));
+
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/admin', adminRoutes);
