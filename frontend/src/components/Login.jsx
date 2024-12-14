@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useStore from "../store/store";
 import { FaUser, FaLock } from "react-icons/fa";
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const navigate = useNavigate();
   const { setUser } = useStore();
   const [userdetails, setUserDetails] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
 
   const handleUserChanges = (e) => {
     setUserDetails({ ...userdetails, [e.target.name]: e.target.value });
@@ -23,15 +23,16 @@ const Login = () => {
       });
 
       if (!data.success) {
-        setError("Invalid email or password");
+        toast.error("Invalid email or password");
         return;
       }
 
       setUser(data.user);
       localStorage.setItem("jwt", data.token);
+      toast.success("Login successful!");
       navigate("/user");
     } catch (error) {
-      setError("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
     }
   };
 
@@ -39,7 +40,6 @@ const Login = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
         <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">Login</h2>
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4 relative">
             <label className="label p-2">

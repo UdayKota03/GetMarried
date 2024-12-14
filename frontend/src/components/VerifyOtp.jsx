@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const VerifyOtp = () => {
   const navigate = useNavigate();
@@ -9,6 +11,7 @@ const VerifyOtp = () => {
   const handleotpchange = (e) => {
     setotp(e.target.value);
   };
+
   const getotp = async () => {
     try {
       const { data } = await axios.post(
@@ -19,13 +22,15 @@ const VerifyOtp = () => {
       );
 
       if (!data.success) {
+        toast.error('Failed to send OTP.');
         return;
       }
 
-      console.log("Opt sent");
+      toast.success('OTP sent successfully.');
       return;
     } catch (error) {
       console.log("Error in getotp. : ", error);
+      toast.error('An error occurred while sending OTP.');
     }
   };
 
@@ -35,21 +40,24 @@ const VerifyOtp = () => {
       console.log(otp);
       const { data } = await axios.post(
         "/api/auth/verifyOtpEmail",
-          {
-            email: localStorage.getItem("email"),
-            otp: otp,
-          }
+        {
+          email: localStorage.getItem("email"),
+          otp: otp,
+        }
       );
 
       if (!data.success) {
+        toast.error('OTP verification failed.');
         return;
       }
 
+      toast.success('OTP verified successfully.');
       navigate("/login");
 
       console.log("Verification done.");
     } catch (error) {
       console.log("Error in verification : ", error);
+      toast.error('An error occurred during verification.');
     }
   };
   return (
@@ -85,6 +93,7 @@ const VerifyOtp = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

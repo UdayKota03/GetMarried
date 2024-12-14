@@ -23,12 +23,15 @@ import CreateProfile from "./components/CreateProfile";
 import About from "./components/About";
 import HowItWorks from "./components/HowItWorks";
 import ContactUs from "./components/ContactUs";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const { user } = useStore();
   return (
     <>
       <Router>
+      <ToastContainer />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

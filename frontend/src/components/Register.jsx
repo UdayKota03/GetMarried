@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaPhone, FaEnvelope, FaLock } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -24,11 +26,14 @@ const Register = () => {
 
       if (data.success) {
         localStorage.setItem("email", data.email);
+        toast.success('Registration successful!');
         navigate("/verify");
         return;
+      } else {
+        toast.error('Registration failed.');
       }
     } catch (error) {
-      console.log("Error in handleRegister: ", error);
+      toast.error('An error occurred. Please try again.');
     }
   };
 
@@ -146,6 +151,7 @@ const Register = () => {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };

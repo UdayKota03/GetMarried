@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaUser, FaPhone, FaCalendar, FaMapMarkerAlt, FaCamera, FaUsers, FaClock } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateProfile = () => {
     const navigate = useNavigate();
@@ -54,16 +56,20 @@ const CreateProfile = () => {
                 }
             );
             if (data.success) {
+                toast.success('Profile created successfully!');
                 navigate("/profiles");
+            } else {
+                toast.error('Failed to create profile.');
             }
         } catch (error) {
+            toast.error('Failed to create profile.');
         }
     };
 
     return (
         <div 
             className="flex items-center justify-center min-h-screen bg-gray-100" 
-            style={{ backgroundColor: "#ECDFD0", padding: "20px",paddingTop: "70px" }}
+            style={{ backgroundColor: "#ECDFD0", padding: "20px", paddingTop: "70px" }}
         >
             <div className="bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
                 <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">
@@ -276,6 +282,7 @@ const CreateProfile = () => {
                     </div>
                 </form>
             </div>
+            <ToastContainer />
         </div>
     );
 };

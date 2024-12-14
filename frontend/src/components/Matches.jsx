@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Profile from "./Profile";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Matches() {
     const [profiles, setProfiles] = useState([]);
@@ -18,8 +20,10 @@ function Matches() {
 
             console.log(data);
             setProfiles(data);
+            toast.success('Matched profiles fetched successfully!');
         } catch (error) {
             console.log("Error in fetchProfiles: ", error);
+            toast.error('Failed to fetch matched profiles.');
         }
     };
 
@@ -39,6 +43,7 @@ function Matches() {
                     <p>No matches found.</p>
                 )}
             </div>
+            <ToastContainer />
         </div>
     );
 }

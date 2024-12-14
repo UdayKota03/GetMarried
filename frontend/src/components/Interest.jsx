@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import Profile from "./Profile";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Interest() {
   const [profiles, setProfiles] = useState([]);
@@ -18,8 +20,10 @@ function Interest() {
 
       console.log("Received data :", data);
       setProfiles(data);
+      toast.success('Received interests fetched successfully!');
     } catch (error) {
       console.log("Error in fetchProfiles: ", error);
+      toast.error('Failed to fetch received interests.');
     }
   };
 
@@ -39,6 +43,7 @@ function Interest() {
           <p>No interests received.</p>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 }

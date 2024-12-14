@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from 'react-toastify';
 
 function Profile({ profile, type }) {
   const [showFullProfile, setShowFullProfile] = useState(false);
@@ -21,8 +22,10 @@ function Profile({ profile, type }) {
         }
       );
       console.log(data);
+      toast.success('Interest shown successfully!');
     } catch (err) {
       console.log("Error in sending interest: ", err);
+      toast.error('Failed to show interest.');
     }
   };
 
@@ -39,8 +42,10 @@ function Profile({ profile, type }) {
         }
       );
       console.log(data);
+      toast.success('Interest accepted successfully!');
     } catch (error) {
       console.log("Error in accepting interest: ", error);
+      toast.error('Failed to accept interest.');
     }
   };
 
