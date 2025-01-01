@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import NavbarAft from "../components/NavbarAft";
 import axios from "axios";
 import useStore from "../store/store";
+import { toast } from "react-toastify";
 
 function HomeAft() {
   const { setUser } = useStore();

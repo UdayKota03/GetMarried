@@ -236,44 +236,25 @@ export const getReceivedInterests = async (req, res) => {
 
 export const acceptInterest = async (req, res) => {
   try {
-    const { interestId } = req.body;
+    const { userShowingInterestId } = req.body;
     const { email } = req.user;
-    console.log(email);
 
-    const userProfile = await Profile.find({ email });
+    const userProfile = await Profile.findOne({ email });
+    const interestedUserProfileId = userProfile._id.toString();
 
-    const { _id } = userProfile[0];
-
-    console.log(interestId);
-    console.log(_id.toString());
-
-    // Find the interest record by its ID
-    let interest = await Interest.find({
-      userShowingInterestId: interestId,
-      interestedUserProfileId: _id.toString(),
+    let interest = await Interest.findOne({
+      userShowingInterestId,
+      interestedUserProfileId,
     });
 
-    console.log(interest);
-
-    if (interest.length===0 || !interest) {
+    if (!interest) {
       return res.status(404).json({ message: "Interest not found" });
     }
-
-    interest = interest[0];
-    console.log(interest);
 
     interest.mutual = true;
     await interest.save();
 
-    // Create a new match entry in the Match model
-    // const match = new Match({
-    //   userA: interest.userShowingInterestId,
-    //   userB: interest.interestedUserProfileId,
-    // });
-
-    // await match.save();
-
-    res.status(200).json({ message: "Match created successfully" });
+    res.status(200).json({ message: "Interest accepted successfully" });
   } catch (error) {
     console.error("Error accepting interest: ", error.message);
     res.status(500).json({ message: "Failed to accept interest" });

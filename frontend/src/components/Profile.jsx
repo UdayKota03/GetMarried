@@ -11,7 +11,6 @@ function Profile({ profile, type }) {
 
   const handleInterestClick = async (toProfile) => {
     try {
-      console.log(`Interest shown in ${toProfile.firstName} ${toProfile.lastName}`);
       const { data } = await axios.post(
         "/api/profile/showInterest",
         { interestedUserId: toProfile._id },
@@ -21,30 +20,25 @@ function Profile({ profile, type }) {
           },
         }
       );
-      console.log(data);
       toast.success('Interest shown successfully!');
     } catch (err) {
-      console.log("Error in sending interest: ", err);
       toast.error('Failed to show interest.');
     }
   };
 
   const handleAcceptInterest = async (toProfile) => {
     try {
-      console.log(`Accept Interest from ${toProfile.firstName} ${toProfile.lastName}`);
       const { data } = await axios.post(
         "/api/profile/acceptInterest",
-        { interestId: toProfile.interestId },
+        { userShowingInterestId: toProfile._id },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`,
           },
         }
       );
-      console.log(data);
       toast.success('Interest accepted successfully!');
     } catch (error) {
-      console.log("Error in accepting interest: ", error);
       toast.error('Failed to accept interest.');
     }
   };

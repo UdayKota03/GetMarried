@@ -30,8 +30,8 @@ function App() {
   const { user } = useStore();
   return (
     <>
-      <Router>
       <ToastContainer />
+      <Router>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
